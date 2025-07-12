@@ -17,7 +17,7 @@ const AuthIllustration = () => (
     </div>
 );
 
-export const AuthLayout = ({ children }) => {
+export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen flex">
         {/* Left Panel - Illustration (hidden on mobile) */}

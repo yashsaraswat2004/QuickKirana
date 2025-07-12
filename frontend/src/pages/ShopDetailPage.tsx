@@ -1,7 +1,7 @@
 // src/pages/ShopDetailPage.tsx
 // This is the complete, updated file with live API data.
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';

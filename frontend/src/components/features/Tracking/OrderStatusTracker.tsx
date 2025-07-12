@@ -11,7 +11,7 @@ export interface Order {
 const statusSteps = ['Received', 'Preparing', 'Ready for Pickup', 'Completed'];
 // You can dynamically add 'Out for Delivery' if orderType is 'delivery'
 
-const StatusStep = ({ step, isCompleted, isCurrent }) => {
+const StatusStep = ({ step, isCompleted, isCurrent }: { step: string, isCompleted: boolean, isCurrent: boolean }) => {
   return (
     <div className="flex items-center">
       <motion.div 

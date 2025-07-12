@@ -13,7 +13,9 @@ export interface Order {
   createdAt: string;
 }
 
-const statusColors = {
+type OrderStatus = Order['status'];
+
+const statusColors: Record<OrderStatus, string> = {
   Received: 'bg-blue-100 text-blue-800 border-blue-300',
   Preparing: 'bg-yellow-100 text-yellow-800 border-yellow-300',
   'Ready for Pickup': 'bg-green-100 text-green-800 border-green-300',
@@ -21,16 +23,18 @@ const statusColors = {
 };
 
 export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateStatus: (orderId: string, newStatus: Order['status']) => void }) => {
-  const nextStatusMap = {
+  const nextStatusMap: Record<OrderStatus, OrderStatus> = {
     Received: 'Preparing',
     Preparing: 'Ready for Pickup',
     'Ready for Pickup': 'Completed',
+    Completed: 'Completed', // Final state
   };
 
-  const actionTextMap = {
+  const actionTextMap: Record<OrderStatus, string> = {
     Received: 'Accept & Start Preparing',
     Preparing: 'Mark as Ready for Pickup',
     'Ready for Pickup': 'Mark as Completed',
+    Completed: 'Order Completed', // Final state
   };
 
   const canUpdate = order.status !== 'Completed';
