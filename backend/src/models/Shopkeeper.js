@@ -29,8 +29,12 @@ const ShopkeeperSchema = new mongoose.Schema(
             type : String,
             required: [true, 'Please Provide a Shop Name']
         },
+        shopImage: {
+            type: String,
+            default: 'https://res.cloudinary.com/demo/image/upload/v1587611234/sample.jpg',
+        },
         pincode: {
-        type: String, // String is better than Number for pincodes to handle leading zeros
+        type: String, 
         required: [true, 'Please provide a pincode'],
         length: [6, 'Pincode must be 6 digits'],
     },
