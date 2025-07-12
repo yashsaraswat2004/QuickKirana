@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 
+const logoImage = "https://res.cloudinary.com/dp0vgnmtx/image/upload/v1752346312/QK_logo_i3s5ua.png";
+
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [pincode, setPincode] = useState(''); // Add state for the header search bar
+    const [pincode, setPincode] = useState('');
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -25,7 +27,7 @@ export const Header = () => {
           {/* Logo - Kept your beautiful logo design */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <img src={"/QK.png"} alt="Quick Kirana Logo" className="h-10 w-10 transition-transform duration-300 group-hover:scale-110" />
+              <img src={logoImage} alt="Quick Kirana Logo" className="h-10 w-10 transition-transform duration-300 group-hover:scale-110" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:block">
               Quick Kirana

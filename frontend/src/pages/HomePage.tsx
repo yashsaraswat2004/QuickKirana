@@ -5,6 +5,9 @@ import { HowItWorks } from '../features/Homepage/HowItWorks';
 import { Features } from '../features/Homepage/Features';
 import { Testimonials } from '../features/Homepage/Testimonials';
 
+// Replace with your actual Cloudinary URLs after uploading
+const shoppingImage = "https://res.cloudinary.com/dp0vgnmtx/image/upload/v1752346070/Shopping_tih7kd.png";
+
 export const HomePage = () => {
   const [pincode, setPincode] = useState('');
   const navigate = useNavigate();
@@ -68,7 +71,7 @@ export const HomePage = () => {
 
             {/* Right Column: Illustration */}
             <div className="hidden lg:block">
-              <img src="/Shopping.png" alt="Shopping Illustration" width={500}/>
+              <img src={shoppingImage} alt="Shopping Illustration" width={500}/>
             </div>
 
           </div>
