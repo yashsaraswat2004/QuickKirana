@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { Button } from '../../ui/Button';
 
-// Define the structure of an Order object
+// Define the structure of an Order object - Updated to handle both old and new status values
 export interface Order {
   _id: string;
   customerName: string;
   customerPhone: string;
-  status: 'Recieved' | 'Preparing' | 'Ready For Pickup' | 'Out for Delivery' | 'Completed' | 'Cancelled';
+  status: 'Recieved' | 'Received' | 'Preparing' | 'Ready For Pickup' | 'Ready for Pickup' | 'Out for Delivery' | 'Completed' | 'Cancelled';
   itemsDescription: string;
   imageOfList?: string;
   orderType: 'pickup' | 'delivery';
@@ -16,10 +16,13 @@ export interface Order {
 
 type OrderStatus = Order['status'];
 
+// Comprehensive status config that handles both old and new values
 const statusConfig: Record<OrderStatus, { color: string, bg: string, icon: string, label: string }> = {
   'Recieved': { color: 'text-blue-700', bg: 'bg-blue-50 border-blue-200', icon: '📨', label: 'New Order' },
+  'Received': { color: 'text-blue-700', bg: 'bg-blue-50 border-blue-200', icon: '📨', label: 'New Order' },
   'Preparing': { color: 'text-yellow-700', bg: 'bg-yellow-50 border-yellow-200', icon: '👨‍🍳', label: 'Preparing' },
   'Ready For Pickup': { color: 'text-green-700', bg: 'bg-green-50 border-green-200', icon: '✅', label: 'Ready' },
+  'Ready for Pickup': { color: 'text-green-700', bg: 'bg-green-50 border-green-200', icon: '✅', label: 'Ready' },
   'Out for Delivery': { color: 'text-purple-700', bg: 'bg-purple-50 border-purple-200', icon: '🚚', label: 'Delivering' },
   'Completed': { color: 'text-gray-700', bg: 'bg-gray-50 border-gray-200', icon: '🎉', label: 'Completed' },
   'Cancelled': { color: 'text-red-700', bg: 'bg-red-50 border-red-200', icon: '❌', label: 'Cancelled' },
@@ -29,8 +32,10 @@ const statusConfig: Record<OrderStatus, { color: string, bg: string, icon: strin
 const getProgressPercentage = (status: OrderStatus): number => {
   const progressMap: Record<OrderStatus, number> = {
     'Recieved': 25,
+    'Received': 25,
     'Preparing': 50,
     'Ready For Pickup': 75,
+    'Ready for Pickup': 75,
     'Out for Delivery': 85,
     'Completed': 100,
     'Cancelled': 0,
@@ -39,10 +44,15 @@ const getProgressPercentage = (status: OrderStatus): number => {
 };
 
 export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateStatus: (orderId: string, newStatus: Order['status']) => void }) => {
+  // Debug log to see what status values we're getting
+  console.log('Order status received:', order.status, typeof order.status);
+  
   const nextStatusMap: Record<OrderStatus, OrderStatus> = {
     'Recieved': 'Preparing',
+    'Received': 'Preparing',
     'Preparing': order.orderType === 'pickup' ? 'Ready For Pickup' : 'Out for Delivery',
     'Ready For Pickup': 'Completed',
+    'Ready for Pickup': 'Completed',
     'Out for Delivery': 'Completed',
     'Completed': 'Completed',
     'Cancelled': 'Cancelled',
@@ -50,8 +60,10 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
 
   const actionTextMap: Record<OrderStatus, string> = {
     'Recieved': 'Start Preparing',
+    'Received': 'Start Preparing',
     'Preparing': order.orderType === 'pickup' ? 'Mark Ready for Pickup' : 'Start Delivery',
     'Ready For Pickup': 'Mark as Completed',
+    'Ready for Pickup': 'Mark as Completed',
     'Out for Delivery': 'Mark as Delivered',
     'Completed': 'Order Completed',
     'Cancelled': 'Order Cancelled',
@@ -62,13 +74,18 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
   const actionText = actionTextMap[order.status];
   const statusInfo = statusConfig[order.status];
 
-  // Add fallback for undefined statusInfo
+  // Enhanced fallback for undefined statusInfo
   const safeStatusInfo = statusInfo || {
     color: 'text-gray-700',
     bg: 'bg-gray-50 border-gray-200',
     icon: '❓',
-    label: 'Unknown Status'
+    label: `Unknown Status: ${order.status}`
   };
+
+  // Log if we're using fallback
+  if (!statusInfo) {
+    console.warn('Unknown status detected:', order.status, 'Using fallback statusInfo');
+  }
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -186,7 +203,7 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
           </Button>
         )}
         
-        {order.status === 'Recieved' && (
+        {(order.status === 'Recieved' || order.status === 'Received') && (
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

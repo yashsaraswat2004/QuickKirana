@@ -138,18 +138,18 @@ export const DashboardPage = () => {
   // Filter orders based on active filter
   const filteredOrders = orders.filter(order => {
     if (activeFilter === 'all') return true;
-    if (activeFilter === 'received') return order.status === 'Recieved';
+    if (activeFilter === 'received') return order.status === 'Recieved' || order.status === 'Received';
     if (activeFilter === 'preparing') return order.status === 'Preparing';
-    if (activeFilter === 'ready') return order.status === 'Ready For Pickup';
+    if (activeFilter === 'ready') return order.status === 'Ready For Pickup' || order.status === 'Ready for Pickup';
     return true;
   });
 
   // Calculate stats
   const stats = {
     totalOrders: orders.length,
-    newOrders: orders.filter(o => o.status === 'Recieved').length,
+    newOrders: orders.filter(o => o.status === 'Recieved' || o.status === 'Received').length,
     preparing: orders.filter(o => o.status === 'Preparing').length,
-    ready: orders.filter(o => o.status === 'Ready For Pickup').length,
+    ready: orders.filter(o => o.status === 'Ready For Pickup' || o.status === 'Ready for Pickup').length,
     completed: orders.filter(o => o.status === 'Completed').length,
   };
 
