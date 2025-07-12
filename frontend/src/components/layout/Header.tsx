@@ -98,7 +98,7 @@ export const Header = () => {
                 <nav className="flex flex-col space-y-2">
                    <Link to="/track-order" onClick={closeMenu} className="text-gray-700 hover:bg-gray-100 block px-4 py-2 rounded-lg">Track Order</Link>
                    <Link to="/login" onClick={closeMenu} className="text-gray-700 hover:bg-gray-100 block px-4 py-2 rounded-lg">Shopkeeper Login</Link>
-                   <Link to="/list-store" onClick={closeMenu} className="text-gray-700 hover:bg-gray-100 block px-4 py-2 rounded-lg">List Your Store</Link>
+                    <Link to="/about" onClick={closeMenu} className="text-gray-700 hover:bg-gray-100 block px-4 py-2 rounded-lg">About Us</Link>
                 </nav>
               </div>
             </motion.div>

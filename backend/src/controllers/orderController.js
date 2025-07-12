@@ -2,7 +2,7 @@ const Order = require('../models/Order')
 const Shopkeeper = require('../models/Shopkeeper')
 
 exports.createOrder = async (req, res) => {
-    const {customerName, customerPhone, itemsDescription, orderType, shopkeeperId } = req.body; 
+    const {customerName, customerPhone, itemsDescription, orderType, shopkeeperId, imageOfList } = req.body; 
     try{
         const shopkeeper = await Shopkeeper.findById(shopkeeperId);
         if(!shopkeeper)
@@ -15,7 +15,8 @@ exports.createOrder = async (req, res) => {
                 customerPhone,
                 itemsDescription,
                 orderType,
-                shopkeeper: shopkeeperId
+                shopkeeper: shopkeeperId,
+                imageOfList,
             }
         );
 
