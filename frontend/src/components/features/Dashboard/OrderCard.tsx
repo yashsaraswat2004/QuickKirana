@@ -120,8 +120,34 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
       {/* Order Details */}
       <div className="space-y-3 mb-4">
         <div className="bg-gray-50 rounded-lg p-3">
-          <p className="text-sm text-gray-600 mb-1">Order Details:</p>
-          <p className="text-gray-900 font-medium">{order.itemsDescription}</p>
+          <p className="text-sm text-gray-600 mb-2">Order Details:</p>
+          {order.imageOfList && order.imageOfList !== '' ? (
+            <div className="space-y-2">
+              <div className="relative">
+                <img 
+                  src={order.imageOfList} 
+                  alt="Customer's grocery list" 
+                  className="w-full h-48 object-cover rounded-lg border border-gray-200"
+                />
+                <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-full">
+                  📷 Image List
+                </div>
+              </div>
+              <a 
+                href={order.imageOfList} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm hover:underline"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                View Full Size
+              </a>
+            </div>
+          ) : (
+            <p className="text-gray-900 font-medium whitespace-pre-wrap">{order.itemsDescription}</p>
+          )}
         </div>
         
         <div className="flex items-center justify-between text-sm">
@@ -140,17 +166,6 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
           </div>
         </div>
       </div>
-
-      {/* Image Preview */}
-      {order.imageOfList && (
-        <div className="mb-4">
-          <img 
-            src={order.imageOfList} 
-            alt="Order items" 
-            className="w-full h-32 object-cover rounded-lg border"
-          />
-        </div>
-      )}
 
       {/* Action Button */}
       <div className="flex space-x-2">
@@ -188,42 +203,6 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
           />
         </div>
       </div>
-    </motion.div>
-  );
-};
-      <div>
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900">{order.customerName}</h3>
-            <p className="text-sm text-gray-500">{order.customerPhone}</p>
-          </div>
-          <span className={`px-3 py-1 text-sm font-semibold rounded-full border ${statusColors[order.status]}`}>
-            {order.status}
-          </span>
-        </div>
-        
-        <div className="bg-slate-50 p-4 rounded-lg mb-4 border min-h-[100px]">
-          <h4 className="font-semibold text-gray-700 mb-2">Order List:</h4>
-          {/* CORRECTED LOGIC: Check for a non-empty imageOfList string */}
-          {order.imageOfList && order.imageOfList !== '' ? (
-            <a href={order.imageOfList} target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:underline flex items-center gap-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-              View Uploaded List
-            </a>
-          ) : (
-            <p className="text-gray-800 whitespace-pre-wrap">{order.itemsDescription}</p>
-          )}
-        </div>
-      </div>
-
-      {/* CORRECTED LOGIC: Ensure the button and text appear correctly */}
-      {canUpdate && actionText && (
-        <div className="mt-auto pt-4">
-          <Button onClick={() => onUpdateStatus(order._id, nextStatusValue)}>
-            {actionText}
-          </Button>
-        </div>
-      )}
     </motion.div>
   );
 };
