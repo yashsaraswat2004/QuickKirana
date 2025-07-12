@@ -6,7 +6,7 @@ export interface Order {
   _id: string;
   customerName: string;
   customerPhone: string;
-  status: 'Received' | 'Preparing' | 'Ready for Pickup' | 'Out for Delivery' | 'Completed' | 'Cancelled';
+  status: 'Recieved' | 'Preparing' | 'Ready For Pickup' | 'Out for Delivery' | 'Completed' | 'Cancelled';
   itemsDescription: string;
   imageOfList?: string;
   orderType: 'pickup' | 'delivery';
@@ -17,9 +17,9 @@ export interface Order {
 type OrderStatus = Order['status'];
 
 const statusConfig: Record<OrderStatus, { color: string, bg: string, icon: string, label: string }> = {
-  'Received': { color: 'text-blue-700', bg: 'bg-blue-50 border-blue-200', icon: '📨', label: 'New Order' },
+  'Recieved': { color: 'text-blue-700', bg: 'bg-blue-50 border-blue-200', icon: '📨', label: 'New Order' },
   'Preparing': { color: 'text-yellow-700', bg: 'bg-yellow-50 border-yellow-200', icon: '👨‍🍳', label: 'Preparing' },
-  'Ready for Pickup': { color: 'text-green-700', bg: 'bg-green-50 border-green-200', icon: '✅', label: 'Ready' },
+  'Ready For Pickup': { color: 'text-green-700', bg: 'bg-green-50 border-green-200', icon: '✅', label: 'Ready' },
   'Out for Delivery': { color: 'text-purple-700', bg: 'bg-purple-50 border-purple-200', icon: '🚚', label: 'Delivering' },
   'Completed': { color: 'text-gray-700', bg: 'bg-gray-50 border-gray-200', icon: '🎉', label: 'Completed' },
   'Cancelled': { color: 'text-red-700', bg: 'bg-red-50 border-red-200', icon: '❌', label: 'Cancelled' },
@@ -28,9 +28,9 @@ const statusConfig: Record<OrderStatus, { color: string, bg: string, icon: strin
 // Helper function to calculate progress percentage
 const getProgressPercentage = (status: OrderStatus): number => {
   const progressMap: Record<OrderStatus, number> = {
-    'Received': 25,
+    'Recieved': 25,
     'Preparing': 50,
-    'Ready for Pickup': 75,
+    'Ready For Pickup': 75,
     'Out for Delivery': 85,
     'Completed': 100,
     'Cancelled': 0,
@@ -40,18 +40,18 @@ const getProgressPercentage = (status: OrderStatus): number => {
 
 export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateStatus: (orderId: string, newStatus: Order['status']) => void }) => {
   const nextStatusMap: Record<OrderStatus, OrderStatus> = {
-    'Received': 'Preparing',
-    'Preparing': order.orderType === 'pickup' ? 'Ready for Pickup' : 'Out for Delivery',
-    'Ready for Pickup': 'Completed',
+    'Recieved': 'Preparing',
+    'Preparing': order.orderType === 'pickup' ? 'Ready For Pickup' : 'Out for Delivery',
+    'Ready For Pickup': 'Completed',
     'Out for Delivery': 'Completed',
     'Completed': 'Completed',
     'Cancelled': 'Cancelled',
   };
 
   const actionTextMap: Record<OrderStatus, string> = {
-    'Received': 'Start Preparing',
+    'Recieved': 'Start Preparing',
     'Preparing': order.orderType === 'pickup' ? 'Mark Ready for Pickup' : 'Start Delivery',
-    'Ready for Pickup': 'Mark as Completed',
+    'Ready For Pickup': 'Mark as Completed',
     'Out for Delivery': 'Mark as Delivered',
     'Completed': 'Order Completed',
     'Cancelled': 'Order Cancelled',
@@ -61,6 +61,14 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
   const nextStatusValue = nextStatusMap[order.status];
   const actionText = actionTextMap[order.status];
   const statusInfo = statusConfig[order.status];
+
+  // Add fallback for undefined statusInfo
+  const safeStatusInfo = statusInfo || {
+    color: 'text-gray-700',
+    bg: 'bg-gray-50 border-gray-200',
+    icon: '❓',
+    label: 'Unknown Status'
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -87,7 +95,7 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ y: -2 }}
-      className={`bg-white rounded-2xl shadow-lg border-2 ${statusInfo.bg} p-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden`}
+      className={`bg-white rounded-2xl shadow-lg border-2 ${safeStatusInfo.bg} p-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden`}
     >
       {/* Urgent Badge */}
       {order.isUrgent && (
@@ -99,7 +107,7 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="text-2xl">{statusInfo.icon}</div>
+          <div className="text-2xl">{safeStatusInfo.icon}</div>
           <div>
             <h3 className="font-bold text-gray-900 text-lg">{order.customerName}</h3>
             <p className="text-sm text-gray-600">{order.customerPhone}</p>
@@ -112,9 +120,9 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
       </div>
 
       {/* Status Badge */}
-      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusInfo.color} ${statusInfo.bg} mb-4`}>
-        <span className="mr-1">{statusInfo.icon}</span>
-        {statusInfo.label}
+      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${safeStatusInfo.color} ${safeStatusInfo.bg} mb-4`}>
+        <span className="mr-1">{safeStatusInfo.icon}</span>
+        {safeStatusInfo.label}
       </div>
 
       {/* Order Details */}
@@ -178,7 +186,7 @@ export const OrderCard = ({ order, onUpdateStatus }: { order: Order, onUpdateSta
           </Button>
         )}
         
-        {order.status === 'Received' && (
+        {order.status === 'Recieved' && (
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

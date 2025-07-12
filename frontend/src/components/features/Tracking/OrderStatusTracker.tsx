@@ -1,14 +1,14 @@
 import {motion} from 'framer-motion';
 export interface Order {
   _id: string;
-  status: 'Received' | 'Preparing' | 'Ready for Pickup' | 'Out for Delivery' | 'Completed';
+  status: 'Recieved' | 'Preparing' | 'Ready For Pickup' | 'Out for Delivery' | 'Completed';
   shopkeeper: {
     shopName: string;
   };
 
 }
 
-const statusSteps = ['Received', 'Preparing', 'Ready for Pickup', 'Completed'];
+const statusSteps = ['Recieved', 'Preparing', 'Ready For Pickup', 'Completed'];
 // You can dynamically add 'Out for Delivery' if orderType is 'delivery'
 
 const StatusStep = ({ step, isCompleted, isCurrent }: { step: string, isCompleted: boolean, isCurrent: boolean }) => {
