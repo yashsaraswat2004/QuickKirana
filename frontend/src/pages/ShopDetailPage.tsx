@@ -31,7 +31,7 @@ export const ShopDetailPage = () => {
         setLoading(true);
         
         // --- THIS IS THE LIVE API CALL ---
-        const response = await axios.get(`http://localhost:3000/api/shops/${shopId}`);
+        const response = await axios.get(`https://quickkirana-backend.onrender.com/api/shops/${shopId}`);
         setShop(response.data);
 
       } catch (err) {

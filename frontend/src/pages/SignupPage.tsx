@@ -54,7 +54,7 @@ export const SignupPage = () => {
         const imageFormData = new FormData();
         imageFormData.append('image', shopImageFile);
 
-        const uploadResponse = await axios.post('http://localhost:3000/api/upload', imageFormData, {
+        const uploadResponse = await axios.post('https://quickkirana-backend.onrender.com/api/upload', imageFormData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
@@ -73,7 +73,7 @@ export const SignupPage = () => {
         shopImage: imageUrl, // Add the image URL to the final data
       };
 
-      await axios.post('http://localhost:3000/api/auth/register', finalData);
+      await axios.post('https://quickkirana-backend.onrender.com/api/auth/register', finalData);
       
       navigate('/login', { 
         state: { message: 'Account created successfully! Please log in.' }

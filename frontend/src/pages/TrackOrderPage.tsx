@@ -27,9 +27,9 @@ export const TrackOrderPage = () => {
     try {
       let url = '';
       if (searchType === 'orderId') {
-        url = `http://localhost:3000/api/orders/track/${searchQuery}`;
+        url = `https://quickkirana-backend.onrender.com/api/orders/track/${searchQuery}`;
       } else {
-        url = `http://localhost:3000/api/orders/track/phone/${searchQuery}`;
+        url = `https://quickkirana-backend.onrender.com/api/orders/track/phone/${searchQuery}`;
       }
 
       const response = await axios.get(url);

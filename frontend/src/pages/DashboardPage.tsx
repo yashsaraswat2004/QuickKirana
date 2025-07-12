@@ -14,7 +14,7 @@ export const DashboardPage = () => {
       // setLoading(true); // Optional: for manual refresh loading state
       const token = localStorage.getItem('shopkeeperToken');
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.get('http://localhost:3000/api/orders/my-orders', config);
+      const response = await axios.get('https://quickkirana-backend.onrender.com/api/orders/my-orders', config);
       setOrders(response.data);
     } catch (err) {
       setError('Failed to fetch orders. Please try again.');
@@ -37,7 +37,7 @@ export const DashboardPage = () => {
     try {
       const token = localStorage.getItem('shopkeeperToken');
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.put(`http://localhost:3000/api/orders/${orderId}`, { status: newStatus }, config);
+      await axios.put(`https://quickkirana-backend.onrender.com/api/orders/${orderId}`, { status: newStatus }, config);
       
       // Update the order status in the local state for an instant UI update
       setOrders(prevOrders => 

@@ -65,7 +65,7 @@ export const ShopListPage = () => {
         setLoading(true);
         // --- 3. CORRECT THE API URL ---
         // The backend server runs on port 3001
-        const response = await axios.get(`http://localhost:3000/api/shops?pincode=${pincode}`);
+        const response = await axios.get(`https://quickkirana-backend.onrender.com/api/shops?pincode=${pincode}`);
         setShops(response.data);
       } catch (err) {
         setError('Could not fetch stores for this area. Please try again.');

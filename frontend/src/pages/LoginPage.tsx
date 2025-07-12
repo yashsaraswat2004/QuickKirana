@@ -40,7 +40,7 @@ export const LoginPage = () => {
 
     try {
       // IMPORTANT: Make sure your backend API is running on port 3001
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData);
+      const response = await axios.post('https://quickkirana-backend.onrender.com/api/auth/login', formData);
       localStorage.setItem('shopkeeperToken', response.data.token);
       navigate('/dashboard');
     } catch (err) {

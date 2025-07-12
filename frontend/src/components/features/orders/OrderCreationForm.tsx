@@ -47,7 +47,7 @@ export const OrderCreationForm = ({ shopId, shopName, shopPhone }: { shopId: str
         const imageFormData = new FormData();
         imageFormData.append('image', listImage);
 
-        const uploadRes = await axios.post('http://localhost:3000/api/upload', imageFormData, {
+        const uploadRes = await axios.post('https://quickkirana-backend.onrender.com/api/upload', imageFormData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         imageUrl = uploadRes.data.url;
@@ -69,7 +69,7 @@ export const OrderCreationForm = ({ shopId, shopName, shopPhone }: { shopId: str
         orderType: 'pickup', // Defaulting to pickup, you can add a selector for this
       };
 
-      const orderRes = await axios.post('http://localhost:3000/api/orders', orderPayload);
+      const orderRes = await axios.post('https://quickkirana-backend.onrender.com/api/orders', orderPayload);
       
       // On success, navigate to a confirmation page with order details
       navigate('/order-success', {  state: { 
